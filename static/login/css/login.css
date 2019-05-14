@@ -1,0 +1,103 @@
+body {
+    height: 100%;
+    background-image: url('../image/bg.jpg');
+    /*background-repeat: no-repeat;*/
+    /*background-size:100% 100%;*/
+    /*-moz-background-size:100% 100%;*/
+}
+
+.form-login {
+    width: 100%;
+    max-width: 330px;
+    /*min-width: 300px;*/
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.form-login {
+    margin-top: 80px;
+    font-weight: 400;
+}
+
+.form-login .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+
+}
+
+.form-login .form-control:focus {
+    z-index: 2;
+}
+
+.form-login input[type="text"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-login input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+
+/*register*/
+
+form a {
+    display: inline-block;
+    margin-top: 25px;
+    font-size: 16px;
+    line-height: 14px;
+}
+
+body {
+    height: 100%;
+    background-image: url('../image/bg.jpg');
+}
+
+.form-register {
+    width: 100%;
+    max-width: 400px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.form-group {
+    margin-bottom: 5px;
+}
+
+form a {
+    display: inline-block;
+    margin-top: 25px;
+    line-height: 10px;
+}
+
+.form-register{
+    margin-top: 50px;
+}
+.form-register input {
+    width: 70%;
+    display: inline-block;
+}
+
+.form-register input[name="email"] {
+    width: 50%;
+    display: inline-block;
+}
+
+.form-register label {
+    width: 20%;
+}
+
+.fetch-code {
+    width: 25%;
+}
+
+.form-register .sending {
+    cursor: not-allowed;
+    /*background-color: #a3a3a1 !important*/
+}

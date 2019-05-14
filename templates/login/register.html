@@ -1,0 +1,129 @@
+{#{% load static %}#}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/login/css/login.css" rel="stylesheet"/>
+    <title>注册。。。。。</title>
+</head>
+<body>
+{% csrf_token %}
+<div class="container">
+    <div class="col">
+        <form class="form-register" action="/register/" method="post">
+
+            {% if message %}
+                <div class="alert alert-warning">{{ message }}</div>
+            {% endif %}
+
+            {% csrf_token %}
+            <h3 class="text-center">欢迎注册</h3>
+
+            <div class="form-group">
+                {{ register_form.username.label_tag }}
+                {{ register_form.username }}
+            </div>
+            <div class="form-group">
+                {{ register_form.password1.label_tag }}
+                {{ register_form.password1 }}
+            </div>
+            <div class="form-group">
+                {{ register_form.password2.label_tag }}
+                {{ register_form.password2 }}
+            </div>
+            <div class="form-group">
+                {{ register_form.email.label_tag }}
+                {{ register_form.email }}
+                <a id="fetch_code" class="fetch-code" href="javascript:void(0);">获取验证码</a>
+            </div>
+            <div class="form-group">
+                {{ register_form.sex.label_tag }}
+                {{ register_form.sex }}
+            </div>
+            <div class="form-group">
+                {{ register_form.chkcode.label_tag }}
+                {#                <span>#}
+                {#                    <img class="check-img" src="/check_code/" alt="验证码" onclick="ChangeCode(this);">#}
+                {#                </span>#}
+                {{ register_form.chkcode }}
+                <div id="chek_error">
+
+                </div>
+            </div>
+
+            <div>
+                <a href="/login/">
+                    <ins>直接登录</ins>
+                </a>
+                <button type="submit" class="btn btn-primary float-right">注册</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    function ChangeCode(ths) {
+        ths.src += '?';
+    }
+</script>
+{#    以下三者的引用顺序是固定的#}
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+<script src="https://cdn.bootcss.com/popper.js/1.15.0/umd/popper.js"></script>
+<script src="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="/static/js/jquery.cookie.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        BindSendMsg();
+    });
+
+    var csrftoken = $.cookie('csrftoken');
+
+    $.ajaxSetup({
+        beforeSend: function (xhr, settings) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+
+        }
+    });
+
+    function BindSendMsg() {
+        $('#fetch_code').click(function () {
+                $('.alert-warning').empty();
+                //判断是否有属性，有就停止执行
+                if ($(this).hasClass('sending')) {
+                    return;
+                }
+
+                var email = $('#id_email').val();
+                var ths = $(this);
+                var time = 60;
+
+                $.ajax({
+                    url: "/send_msg/",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {email: email},
+                    success: function (arg) {
+                        if (!arg.status) {
+                            $('#fetch_code').empty()
+                            $('#fetch_code').text(arg.summary)
+                        } else {
+                            ths.addClass('sending')
+                            var interval = setInterval(function () {
+                                ths.text("已发送(" + time + ")");
+                                time -= 1;
+                                if (time <= 0) {
+                                    clearInterval(interval);
+                                    ths.removeClass('sending');
+                                    ths.text('获取验证码');
+                                }
+                            }, 1000);
+                        }
+                    }
+                });
+            }
+        );
+    }
+</script>
+</body>
+</html>
